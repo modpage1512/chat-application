@@ -13,7 +13,7 @@ class App extends Component {
   };
 
   handleChange = (e) => {
-    console.log("handle change")
+    console.log(e.target.value)
   }
   handleSubmit = (e) => {
     console.log("handle submit")
@@ -34,8 +34,8 @@ class App extends Component {
           <div className="col-10 mx-auto col-md-8 mt-5">
             <h3 className="text-capitalize text-center">todo input</h3>
             <TodoInput item={this.state.input} handleChange={this.handleChange} handleSubmit={this.handleSubmit} edit={this.state.editItem} />
+            <Todolist items={this.state.items} clearList={this.clearList} handleDelete={this.handleDelete} handleEdit={this.handleEdit} />
           </div>
-          <Todolist items={this.state.items} clearList={this.clearList} handleDelete={this.handleDelete} handleEdit={this.handleEdit} />
         </div>
       </div>
     );
