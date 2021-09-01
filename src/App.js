@@ -6,26 +6,60 @@ import React, { Component } from "react";
 
 class App extends Component {
   state = {
-    items: [{ id: 1, title: "wake up" }, { id: 2, title: "make me food" }],
+    items: [],
     id: uuid(),
     item: "",
     editItem: false
   };
 
   handleChange = (e) => {
-    console.log(e.target.value)
+    this.setState({
+      item: e.target.value
+    })
   }
+
   handleSubmit = (e) => {
-    console.log("handle submit")
+    e.preventDefault();
+
+    const newItem = {
+      id: this.state.id,
+      title: this.state.item
+    }
+
+    const updateItems = [...this.state.items, newItem];
+
+    this.setState({
+      items: updateItems,
+      id: uuid(),
+      item: '',
+      editItem: false
+    })
   }
+
   clearList = () => {
-    console.log("clearlist")
+    this.setState({
+      items: []
+    })
   }
   handleDelete = (id) => {
-    console.log("handle delete" + id)
+
+    const filteredItems = this.state.items.filter(item => item.id !== id);
+
+    this.setState({
+      items: filteredItems
+    });
+
   }
   handleEdit = (id) => {
-    console.log("edit edit" + id)
+    const filteredItems = this.state.items.filter(item => item.id !== id);
+    const selectedItem = this.state.items.find(item => item.id === id);
+
+    this.setState({
+      item: selectedItem.title,
+      items: filteredItems,
+      id: id,
+      editItem: true
+    })
   }
   render() {
     return (
@@ -33,7 +67,7 @@ class App extends Component {
         <div className="row">
           <div className="col-10 mx-auto col-md-8 mt-5">
             <h3 className="text-capitalize text-center">todo input</h3>
-            <TodoInput item={this.state.input} handleChange={this.handleChange} handleSubmit={this.handleSubmit} edit={this.state.editItem} />
+            <TodoInput item={this.state.item} handleChange={this.handleChange} handleSubmit={this.handleSubmit} edit={this.state.editItem} />
             <Todolist items={this.state.items} clearList={this.clearList} handleDelete={this.handleDelete} handleEdit={this.handleEdit} />
           </div>
         </div>
